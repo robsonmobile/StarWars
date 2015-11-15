@@ -47,6 +47,7 @@ public class PeopleListFragment extends Fragment {
 
     private PeopleListAdapter adapter;
     private ProgressDialog progressDialog;
+    private int count = 1;
 
     @Nullable
     @Override
@@ -65,7 +66,7 @@ public class PeopleListFragment extends Fragment {
         createProgressDialog();
         setOnLoading(true);
 
-        new RestApi().requestForPeople(callbackPeople);
+        new RestApi().requestForPeople(1, callbackPeople);
     }
 
     @Override
@@ -98,9 +99,10 @@ public class PeopleListFragment extends Fragment {
 
         @Override
         public void success(People people, Response response) {
-
             int size = people.getResults().size();
-            Log.i("Log result size", " --> "+ size);
+            int pagesCount = people.getCount() / size;
+
+            Log.i("Log count " , "--> " + pagesCount);
 
             List<PeopleModel> results = new ArrayList<>();
             for(int i = 0; i < size - 1; i++) {
@@ -122,7 +124,7 @@ public class PeopleListFragment extends Fragment {
                 Log.i("Log callback result", "--> " + results.get(i).getName());
             }
             //Bind Results to recyclerview
-            Log.i("Log callback result", "--> " + results.get(0).getName());
+            //Log.i("Log callback result", "--> " + results.get(0).getName());
             bindRecyclerViewData(results);
             setOnLoading(false);
         }

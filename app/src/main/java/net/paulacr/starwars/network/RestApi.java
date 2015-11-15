@@ -39,9 +39,9 @@ public class RestApi {
         api = restAdapter.create(StarWarsApi.class);
     }
 
-    public void requestForPeople(Callback callback) {
+    public void requestForPeople(int page, Callback callback) {
         createApi();
-        api.performPeopleRequest(callback);
+        api.performPeopleRequest(page, callback);
     }
 
 
