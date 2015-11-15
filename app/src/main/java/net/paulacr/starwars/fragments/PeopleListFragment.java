@@ -106,7 +106,7 @@ public class PeopleListFragment extends Fragment {
             for(int i = 0; i < size - 1; i++) {
                 String nome = people.getResults().get(i).getName();
                 String homeworld = people.getResults().get(i).getHomeworld();
-                String gender = people.getResults().get(i).getGender();
+                String gender = " " + people.getResults().get(i).getGender();
 
                 //set correct gender text, depending on Language
                 String lang = Resources.getSystem().getConfiguration().locale.getDisplayLanguage();
