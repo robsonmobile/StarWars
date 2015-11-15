@@ -13,5 +13,7 @@
     <string name="vehicles">Veículos</string>
     <string name="species">Espécies</string>
     <string name="films">Filmes</string>
+    <string name="progress_receiving_data">Recebendo dados, aguarde...</string>
+    <string name="text_gender">Sexo: </string>
 
 </resources>

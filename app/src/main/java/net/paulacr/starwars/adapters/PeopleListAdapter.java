@@ -1,5 +1,6 @@
 package net.paulacr.starwars.adapters;
 
+import android.content.res.Resources;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,7 +20,10 @@ import net.paulacr.starwars.models.PeopleModel;
 import net.paulacr.starwars.network.RestApi;
 
 import java.util.List;
+import java.util.Locale;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -38,19 +42,16 @@ public class PeopleListAdapter extends RecyclerView.Adapter<PeopleListAdapter.Vi
 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public ImageView icon;
-        private ImageView homeworld;
-        public TextView name;
-        public TextView gender;
+
+        @Bind(R.id.peopleListIcon) ImageView icon;
+        @Bind(R.id.peopleListHomeworld) ImageView homeworld;
+        @Bind(R.id.peopleListName) TextView name;
+        @Bind(R.id.peopleListGender) TextView gender;
 
         public ViewHolder(View view) {
             super(view);
 
-            icon        = (ImageView) view.findViewById(R.id.peopleListIcon);
-            homeworld   = (ImageView) view.findViewById(R.id.peopleListHomeworld);
-            name        = (TextView) view.findViewById(R.id.peopleListName);
-            gender     = (TextView) view.findViewById(R.id.peopleListGender);
-
+            ButterKnife.bind(this, view);
             view.setOnClickListener(this);
         }
 
@@ -61,7 +62,6 @@ public class PeopleListAdapter extends RecyclerView.Adapter<PeopleListAdapter.Vi
 
             switch (position) {
                 case 0:
-
                     Log.i("Log position ", "--> " + position + " case 0");
                     break;
                 case 1:
@@ -101,6 +101,9 @@ public class PeopleListAdapter extends RecyclerView.Adapter<PeopleListAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         PeopleModel people = peoples.get(position);
+
+        Log.i("Log adapter position ", "--> " + position);
+
         //Icon hardcoded
         holder.icon.setImageResource(R.mipmap.ic_launcher);
         holder.homeworld.setImageResource(R.mipmap.ic_launcher);

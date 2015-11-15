@@ -1,5 +1,7 @@
 package net.paulacr.starwars.fragments;
 
+import android.app.ProgressDialog;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,9 +25,11 @@ import net.paulacr.starwars.models.POJO.people.People;
 import net.paulacr.starwars.models.PeopleModel;
 import net.paulacr.starwars.network.RestApi;
 import net.paulacr.starwars.repositories.GridMenuItems;
+import net.paulacr.starwars.utils.Translations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,19 +42,16 @@ import retrofit.client.Response;
  */
 public class PeopleListFragment extends Fragment {
 
-    @Bind(R.id.loadingPeopleList)
-    ProgressBar loadingView;
-
     @Bind(R.id.peoplesRecyclerView)
     RecyclerView recyclerView;
 
-
     private PeopleListAdapter adapter;
+    private ProgressDialog progressDialog;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LinearLayout layout = (LinearLayout) inflater.inflate(
+        RecyclerView layout = (RecyclerView) inflater.inflate(
                 R.layout.people_list_fragment, container, false);
         ButterKnife.bind(this, layout);
 
@@ -60,80 +61,68 @@ public class PeopleListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //setupRecyclerView();
 
+        createProgressDialog();
+        setOnLoading(true);
 
-        //new RestApi().requestForPeople(callbackPeople);
+        new RestApi().requestForPeople(callbackPeople);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        setOnLoading(true);
-
     }
 
-    private void setupRecyclerView() {
+    private void setOnLoading(boolean isLoading) {
+        if(isLoading) {
+            progressDialog.show();
+        } else {
+            progressDialog.dismiss();
+        }
+    }
 
+    private ProgressDialog createProgressDialog() {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage(getResources().getString(R.string.progress_receiving_data));
+        return progressDialog;
+    }
 
+    private void bindRecyclerViewData(List<PeopleModel> result) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new PeopleListAdapter(getFakePeoples());
+        adapter = new PeopleListAdapter(result);
         recyclerView.setAdapter(adapter);
         //DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator();
     }
-
-    private void setOnLoading(boolean value) {
-        if(value) {
-            loadingView.setVisibility(View.VISIBLE);
-            //recyclerView.setVisibility(View.INVISIBLE);
-        } else {
-            loadingView.setVisibility(View.INVISIBLE);
-            //recyclerView.setVisibility(View.VISIBLE);
-        }
-
-    }
-
-    private List<PeopleModel> getFakePeoples() {
-        List<PeopleModel> peoples = new ArrayList<>();
-        peoples.add(new PeopleModel("string", "string", "string", R.mipmap.ic_launcher));
-        return peoples;
-    }
-
-    private void setResults(List<PeopleModel> resultCallback) {
-        Log.i("Log callback result", "--> " + resultCallback.get(5).getName());
-        adapter = new PeopleListAdapter(resultCallback);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-    }
-
 
     Callback<People> callbackPeople = new Callback<People>() {
 
         @Override
         public void success(People people, Response response) {
 
-            int count = people.getCount() - 1;
             int size = people.getResults().size();
-
-            Log.i("Log callback size", "--> " + size);
-            Log.i("Log callback count", "--> " +count);
-
+            Log.i("Log result size", " --> "+ size);
 
             List<PeopleModel> results = new ArrayList<>();
-
-            for(int i = 0; i < size; i++) {
+            for(int i = 0; i < size - 1; i++) {
                 String nome = people.getResults().get(i).getName();
                 String homeworld = people.getResults().get(i).getHomeworld();
                 String gender = people.getResults().get(i).getGender();
+
+                //set correct gender text, depending on Language
+                String lang = Resources.getSystem().getConfiguration().locale.getDisplayLanguage();
+                if(lang.equals("português")) {
+                    gender = Translations.genderTranslation(gender);
+                }
 
                 PeopleModel peopleModel = new PeopleModel(nome, homeworld, gender, R.mipmap.ic_launcher);
                 results.add(peopleModel);
                 Log.i("Log callback model", "--> " + peopleModel);
                 Log.i("Log callback result", "--> " + results.get(i).getName());
-
             }
+            //Bind Results to recyclerview
+            Log.i("Log callback result", "--> " + results.get(0).getName());
+            bindRecyclerViewData(results);
             setOnLoading(false);
-            setResults(results);
         }
 
         @Override
@@ -141,7 +130,6 @@ public class PeopleListFragment extends Fragment {
             Log.i("Log callback ", " error --> " + error);
         }
     };
-
 
     @Override
     public void onDestroy() {
