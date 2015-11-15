@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/dark_gray</color>
+    <color name="colorPrimary">@color/action_bar</color>
     <color name="colorPrimaryDark">@color/black</color>
     <color name="colorAccent">#FF4081</color>
     <color name="black_semi_transparent">#BF000000</color>
     <color name="black_transparent">#40000000</color>
     <color name="black">#000000</color>
-    <color name="dark_gray">#242424</color>
+    <color name="dark_gray">#393838</color>
+    <color name="action_bar">#2e2929</color>
     <color name="gray">#5e5e5e</color>
     <color name="color_yellow">#ffde17</color>
 </resources>
