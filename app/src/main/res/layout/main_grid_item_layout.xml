@@ -3,8 +3,8 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_gravity="left"
     card_view:cardCornerRadius="1dp"
     android:layout_margin="2dp"
@@ -20,7 +20,8 @@
         <ImageView
             android:id="@+id/mainGridIcon"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
+            android:scaleType="centerCrop"
             tools:src="@drawable/menu_grid_people" />
 
         <LinearLayout

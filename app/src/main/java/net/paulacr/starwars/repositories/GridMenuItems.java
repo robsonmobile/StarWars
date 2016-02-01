@@ -18,12 +18,12 @@ public class GridMenuItems {
     public static List<Icons> getGridMenuItems() {
         if(gridMenuItems == null) {
             gridMenuItems = new ArrayList<>();
-            gridMenuItems.add(new Icons(R.drawable.menu_grid_people, R.string.people));
-            gridMenuItems.add(new Icons(R.drawable.menu_grid_planet, R.string.planets));
-            gridMenuItems.add(new Icons(R.drawable.menu_grid_starship, R.string.spacesships));
-            gridMenuItems.add(new Icons(R.drawable.menu_grid_vehicle, R.string.vehicles));
-            gridMenuItems.add(new Icons(R.drawable.menu_grid_specie, R.string.species));
-            gridMenuItems.add(new Icons(R.drawable.menu_grid_movie, R.string.films));
+            gridMenuItems.add(new Icons(R.drawable.starwars_people_copia, R.string.people));
+            gridMenuItems.add(new Icons(R.drawable.starwars_people_copia, R.string.planets));
+            gridMenuItems.add(new Icons(R.drawable.starwars_people_copia, R.string.spacesships));
+            gridMenuItems.add(new Icons(R.drawable.starwars_people_copia, R.string.vehicles));
+            gridMenuItems.add(new Icons(R.drawable.starwars_people_copia, R.string.species));
+            gridMenuItems.add(new Icons(R.drawable.starwars_people_copia, R.string.films));
         }
         return gridMenuItems;
     }
